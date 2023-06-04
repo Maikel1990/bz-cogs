@@ -87,7 +87,7 @@ class Settings(ImageSettings, PromptSettings, ResponseSettings, MixinMeta):
         return await ctx.send(embed=regex_embed)
 
     @ai_user.command()
-    @checks.is_owner()
+    @checks.admin_or_permissions(manage_guild=True)
     async def percent(self, ctx: commands.Context, new_value: float):
         """ Change the bot's response chance """
         await self.config.guild(ctx.guild).reply_percent.set(new_value / 100)
@@ -156,7 +156,7 @@ class Settings(ImageSettings, PromptSettings, ResponseSettings, MixinMeta):
         return await ctx.send(embed=embed)
 
     @ai_user.command(name="force_reply_to_mentions", aliases=["mentions_replies"])
-    @checks.is_owner()
+    @checks.admin_or_permissions(manage_guild=True)
     async def force_reply_to_mentions(self, ctx: commands.Context):
         """ Toggles if the bot will always reply to mentions/replies """
         value = not await self.config.guild(ctx.guild).reply_to_mentions_replies()
